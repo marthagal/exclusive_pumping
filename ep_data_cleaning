@@ -1,0 +1,240 @@
+# Read data
+data <- read.csv("data_raw.csv")
+
+# Subset data for complete responses with current EPers
+complete_data <- subset(data, Status=="Complete")
+current_data <- subset(complete_data, Pumping_Status=="I am currently exclusively pumping.")
+
+# Remove unneeded columns
+working_data <- current_data[c(1,24:143)]
+working_data <- working_data[c(1:2,18:121)]
+working_data <- working_data[c(1:3,5,7:8,10:106)]
+
+# Modify numeric columns
+working_data$Baby_Age_Normalized <- as.numeric(as.character(working_data$Baby_Age_Normalized))
+colnames(working_data)[colnames(working_data)=="Baby_Age_Normalized"] <- "Baby_Age"
+working_data$Amount_Pumped_Normalized <- as.numeric(as.character(working_data$Amount_Pumped_Normalized))
+colnames(working_data)[colnames(working_data)=="Amount_Pumped_Normalized"] <- "Amount_Pumped"
+working_data$Amount_Baby_Eats_Normalized <- as.numeric(as.character(working_data$Amount_Baby_Eats_Normalized))
+colnames(working_data)[colnames(working_data)=="Amount_Baby_Eats_Normalized"] <- "Amount_Baby_Eats"
+working_data$Times_Pumped_Normalized <- as.numeric(as.character(working_data$Times_Pumped_Normalized))
+colnames(working_data)[colnames(working_data)=="Times_Pumped_Normalized"] <- "Times_Pumped"
+working_data$Pumping_Session_Length_Normalized <- as.numeric(as.character(working_data$Pumping_Session_Length_Normalized))
+colnames(working_data)[colnames(working_data)=="Pumping_Session_Length_Normalized"] <- "Pumping_Session_Length"
+
+# Combine Fenugreek columns
+colnames(working_data)[colnames(working_data)=="Fenurgreek_Helped"] <- "Fenugreek"
+working_data$Fenugreek <- as.character(working_data$Fenugreek)
+working_data$Fenugreek[working_data$Fenugreek == "I did, and I think it helped"] <- "Help"
+working_data$Fenugreek[working_data$Fenugreek_No_Help == "I did, and I don't think it helped"] <- "No_Help"
+working_data$Fenugreek[working_data$Fenugreek_Not_Sure == "I did, and I'm not sure if it helped"] <- "Not_Sure"
+working_data$Fenugreek[working_data$Fenugreek_Didnt_Try == "I didn't try this"] <- "Didnt_Try"
+working_data <- working_data[c(1:7,11:103)]
+
+# Combine Oatmeal columns
+colnames(working_data)[colnames(working_data)=="Oatmeal_Helped"] <- "Oatmeal"
+working_data$Oatmeal <- as.character(working_data$Oatmeal)
+working_data$Oatmeal[working_data$Oatmeal == "I did, and I think it helped"] <- "Help"
+working_data$Oatmeal[working_data$Oatmeal_No_Help == "I did, and I don't think it helped"] <- "No_Help"
+working_data$Oatmeal[working_data$Oatmeal_Not_Sure == "I did, and I'm not sure if it helped"] <- "Not_Sure"
+working_data$Oatmeal[working_data$Oatmeal_Didnt_Try == "I didn't try this"] <- "Didnt_Try"
+working_data <- working_data[c(1:8,12:100)]
+
+# Combine Water columns
+colnames(working_data)[colnames(working_data)=="Water_Helped"] <- "Water"
+working_data$Water <- as.character(working_data$Water)
+working_data$Water[working_data$Water == "I did, and I think it helped"] <- "Help"
+working_data$Water[working_data$Water_No_Help == "I did, and I don't think it helped"] <- "No_Help"
+working_data$Water[working_data$Water_Not_Sure == "I did, and I'm not sure if it helped"] <- "Not_Sure"
+working_data$Water[working_data$Water_Didnt_Try == "I didn't try this"] <- "Didnt_Try"
+working_data <- working_data[c(1:9,13:97)]
+
+# Combine Power Pumping columns
+colnames(working_data)[colnames(working_data)=="Power_Helped"] <- "Power_Pumping"
+working_data$Power_Pumping <- as.character(working_data$Power_Pumping)
+working_data$Power_Pumping[working_data$Power_Pumping == "I did, and I think it helped"] <- "Help"
+working_data$Power_Pumping[working_data$Power_No_Help == "I did, and I don't think it helped"] <- "No_Help"
+working_data$Power_Pumping[working_data$Power_Not_Sure == "I did, and I'm not sure if it helped"] <- "Not_Sure"
+working_data$Power_Pumping[working_data$Power_Didnt_Try == "I didn't try this"] <- "Didnt_Try"
+working_data <- working_data[c(1:10,14:94)]
+
+# Combine Beer columns
+colnames(working_data)[colnames(working_data)=="Beer_Helped"] <- "Beer"
+working_data$Beer <- as.character(working_data$Beer)
+working_data$Beer[working_data$Beer == "I did, and I think it helped"] <- "Help"
+working_data$Beer[working_data$Beer_No_Help == "I did, and I don't think it helped"] <- "No_Help"
+working_data$Beer[working_data$Beer_Not_Sure == "I did, and I'm not sure if it helped"] <- "Not_Sure"
+working_data$Beer[working_data$Beer_Didnt_Try == "I didn't try this"] <- "Didnt_Try"
+working_data <- working_data[c(1:11,15:91)]
+
+# Combine Blessed columns
+colnames(working_data)[colnames(working_data)=="Blessed_Helped"] <- "Blessed"
+working_data$Blessed <- as.character(working_data$Blessed)
+working_data$Blessed[working_data$Blessed == "I did, and I think it helped"] <- "Help"
+working_data$Blessed[working_data$Blessed_No_Help == "I did, and I don't think it helped"] <- "No_Help"
+working_data$Blessed[working_data$Blessed_Not_Sure == "I did, and I'm not sure if it helped"] <- "Not_Sure"
+working_data$Blessed[working_data$Blessed_Didnt_Try == "I didn't try this"] <- "Didnt_Try"
+working_data <- working_data[c(1:12,16:88)]
+
+# Combine Teas columns
+colnames(working_data)[colnames(working_data)=="Teas_Helped"] <- "Teas"
+working_data$Teas <- as.character(working_data$Teas)
+working_data$Teas[working_data$Teas == "I did, and I think it helped"] <- "Help"
+working_data$Teas[working_data$Teas_No_Help == "I did, and I don't think it helped"] <- "No_Help"
+working_data$Teas[working_data$Teas_Not_Sure == "I did, and I'm not sure if it helped"] <- "Not_Sure"
+working_data$Teas[working_data$Teas_Didnt_Try == "I didn't try this"] <- "Didnt_Try"
+working_data <- working_data[c(1:13,17:85)]
+
+# Combine Dom columns
+colnames(working_data)[colnames(working_data)=="Dom_Helped"] <- "Dom"
+working_data$Dom <- as.character(working_data$Dom)
+working_data$Dom[working_data$Dom == "I did, and I think it helped"] <- "Help"
+working_data$Dom[working_data$Dom_No_Help == "I did, and I don't think it helped"] <- "No_Help"
+working_data$Dom[working_data$Dom_Not_Sure == "I did, and I'm not sure if it helped"] <- "Not_Sure"
+working_data$Dom[working_data$Dom_Didnt_Try == "I didn't try this"] <- "Didnt_Try"
+working_data <- working_data[c(1:14,18:82)]
+
+# Combine Reglan columns
+colnames(working_data)[colnames(working_data)=="Reglan_Helped"] <- "Reglan"
+working_data$Reglan <- as.character(working_data$Reglan)
+working_data$Reglan[working_data$Reglan == "I did, and I think it helped"] <- "Help"
+working_data$Reglan[working_data$Reglan_No_Help == "I did, and I don't think it helped"] <- "No_Help"
+working_data$Reglan[working_data$Reglan_Not_Sure == "I did, and I'm not sure if it helped"] <- "Not_Sure"
+working_data$Reglan[working_data$Reglan_Didnt_Try == "I didn't try this"] <- "Didnt_Try"
+working_data <- working_data[c(1:15,19:79)]
+
+# Convert Why columns to Yes/No
+working_data$Why_EP_Physical <- as.character(working_data$Why_EP_Physical)
+working_data$Why_EP_Physical[working_data$Why_EP_Physical == "My baby couldn't nurse for physical reasons (i.e., cleft palate)."] <- "Y"
+working_data$Why_EP_Physical[working_data$Why_EP_Physical == ""] <- "N"
+
+working_data$Why_EP_Refused_Latch <- as.character(working_data$Why_EP_Refused_Latch)
+working_data$Why_EP_Refused_Latch[working_data$Why_EP_Refused_Latch == "My baby refused to nurse or would not latch."] <- "Y"
+working_data$Why_EP_Refused_Latch[working_data$Why_EP_Refused_Latch == ""] <- "N"
+
+working_data$Why_EP_NICU <- as.character(working_data$Why_EP_NICU)
+working_data$Why_EP_NICU[working_data$Why_EP_NICU == "My baby was in the NICU and we had difficulty establishing nursing."] <- "Y"
+working_data$Why_EP_NICU[working_data$Why_EP_NICU == ""] <- "N"
+
+working_data$Why_EP_No_Weight_Gain <- as.character(working_data$Why_EP_No_Weight_Gain)
+working_data$Why_EP_No_Weight_Gain[working_data$Why_EP_No_Weight_Gain == "My baby wasn't gaining weight/wasn't transferring milk well while nursing."] <- "Y"
+working_data$Why_EP_No_Weight_Gain[working_data$Why_EP_No_Weight_Gain == ""] <- "N"
+
+working_data$Why_EP_Painful <- as.character(working_data$Why_EP_Painful)
+working_data$Why_EP_Painful[working_data$Why_EP_Painful == "Nursing was too painful."] <- "Y"
+working_data$Why_EP_Painful[working_data$Why_EP_Painful == ""] <- "N"
+
+working_data$Why_EP_Biting <- as.character(working_data$Why_EP_Biting)
+working_data$Why_EP_Biting[working_data$Why_EP_Biting == "My baby started biting me."] <- "Y"
+working_data$Why_EP_Biting[working_data$Why_EP_Biting == ""] <- "N"
+working_data <- working_data[c(1:21,27:76)]
+
+# Convert Health columns to Yes/No
+working_data$Health_Clogged <- as.character(working_data$Health_Clogged)
+working_data$Health_Clogged[working_data$Health_Clogged == "Clogged Ducts"] <- "Y"
+working_data$Health_Clogged[working_data$Health_Clogged == ""] <- "N"
+
+working_data$Health_Mastitis <- as.character(working_data$Health_Mastitis)
+working_data$Health_Mastitis[working_data$Health_Mastitis == "Mastitis"] <- "Y"
+working_data$Health_Mastitis[working_data$Health_Mastitis == ""] <- "N"
+
+working_data$Health_Thrush <- as.character(working_data$Health_Thrush)
+working_data$Health_Thrush[working_data$Health_Thrush == "Thrush"] <- "Y"
+working_data$Health_Thrush[working_data$Health_Thrush == ""] <- "N"
+
+working_data$Health_Galactoceles <- as.character(working_data$Health_Galactoceles)
+working_data$Health_Galactoceles[working_data$Health_Galactoceles == "Galactoceles"] <- "Y"
+working_data$Health_Galactoceles[working_data$Health_Galactoceles == ""] <- "N"
+
+working_data$Health_Cracked_Bleeding <- as.character(working_data$Health_Cracked_Bleeding)
+working_data$Health_Cracked_Bleeding[working_data$Health_Cracked_Bleeding == "Cracked/bleeding nipples"] <- "Y"
+working_data$Health_Cracked_Bleeding[working_data$Health_Cracked_Bleeding == ""] <- "N"
+
+working_data$Health_General_Pain <- as.character(working_data$Health_General_Pain)
+working_data$Health_General_Pain[working_data$Health_General_Pain == "General nipple pain or chafing"] <- "Y"
+working_data$Health_General_Pain[working_data$Health_General_Pain == ""] <- "N"
+
+working_data$Health_No_Issues <- as.character(working_data$Health_No_Issues)
+working_data$Health_No_Issues[working_data$Health_No_Issues == "No issues"] <- "Y"
+working_data$Health_No_Issues[working_data$Health_No_Issues == ""] <- "N"
+working_data <- working_data[c(1:27,29:71)]
+working_data <- working_data[c(1:28,44:70)]
+
+# Convert Partner Supportive column
+working_data$Partner_Very_Supportive <- as.character(working_data$Partner_Very_Supportive)
+working_data$Partner_Very_Supportive[working_data$Partner_Very_Supportive == "My partner is supportive."] <- "Supportive"
+working_data$Partner_Very_Supportive[working_data$Partner_Very_Supportive == "My partner is somewhere in the middle."] <- "Neutral"
+working_data$Partner_Very_Supportive[working_data$Partner_Very_Supportive == "My partner is very supportive."] <- "Very_Supportive"
+working_data$Partner_Very_Supportive[working_data$Partner_Very_Supportive == "My partner is extremely unsupportive."] <- "Very_Unsupportive"
+working_data$Partner_Very_Supportive[working_data$Partner_Very_Supportive == "My partner is not very supportive."] <- "Not_Supportive"
+working_data$Partner_Very_Supportive[working_data$Partner_Very_Supportive == "Other"] <- "NA"
+working_data$Partner_Very_Supportive[working_data$Partner_Very_Supportive == ""] <- "NA"
+working_data$Partner_Very_Supportive[working_data$Partner_Very_Supportive == "I do not have a partner."] <- "NA"
+working_data$Partner_Very_Supportive[working_data$Partner_Very_Supportive == "I prefer not to answer."] <- "NA"
+working_data <- working_data[c(1:29,31:55)]
+
+# Convert Pump Baby Again column
+working_data$Pump_Baby_Again <- as.character(working_data$Pump_Baby_Again)
+working_data$Pump_Baby_Again[working_data$Pump_Baby_Again == "Not sure/it depends on the situation"] <- "Not_Sure"
+working_data$Pump_Baby_Again[working_data$Pump_Baby_Again == "Other"] <- "NA"
+working_data$Pump_Baby_Again[working_data$Pump_Baby_Again == ""] <- "NA"
+working_data <- working_data[c(1:30,36:54)]
+
+# Convert Age column
+working_data$Age <- as.character(working_data$Age)
+working_data$Age[working_data$Age == "20-25 years old"] <- "20_25"
+working_data$Age[working_data$Age == "26-30 years old"] <- "26_30"
+working_data$Age[working_data$Age == "31-35 years old"] <- "31_35"
+working_data$Age[working_data$Age == "36-40 years old"] <- "36_40"
+working_data$Age[working_data$Age == "Under 20 years old"] <- "Under_20"
+working_data$Age[working_data$Age == "41-45 years old"] <- "41_45"
+working_data$Age[working_data$Age == ""] <- "NA"
+
+# Convert Birth Experience column
+working_data$Birth_Experience <- as.character(working_data$Birth_Experience)
+working_data$Birth_Experience[working_data$Birth_Experience == "Vaginal birth, without medication"] <- "Vaginal_Birth_No_Meds"
+working_data$Birth_Experience[working_data$Birth_Experience == "Vaginal birth, with medication (such as pitocin, epidural, antibiotics, etc.)"] <- "Vaginal_Birth_Meds"
+working_data$Birth_Experience[working_data$Birth_Experience == "Planned c-section"] <- "Planned_C_Section"
+working_data$Birth_Experience[working_data$Birth_Experience == "Unplanned/Emergency c-section"] <- "Unplanned_C_Section"
+working_data$Birth_Experience[working_data$Birth_Experience == "Other"] <- "NA"
+working_data$Birth_Experience[working_data$Birth_Experience == ""] <- "NA"
+working_data <- working_data[c(1:32,34:49)]
+
+# Convert Got Period Back column
+working_data$Got_Period_Back <- as.character(working_data$Got_Period_Back)
+working_data$Got_Period_Back[working_data$Got_Period_Back == "Yes, and I got it back around this many months post-partum:"] <- "Yes"
+working_data$Got_Period_Back[working_data$Got_Period_Back == "I'm not sure"] <- "Not_Sure"
+working_data$Got_Period_Back[working_data$Got_Period_Back == "I prefer not to answer."] <- "NA"
+working_data$Got_Period_Back[working_data$Got_Period_Back == ""] <- "NA"
+working_data <- working_data[c(1:32,34:47)]
+
+# Convert First Baby column
+working_data$First_Baby <- as.character(working_data$First_Baby)
+working_data$First_Baby[working_data$First_Baby == "No, I have older children"] <- "No"
+working_data$First_Baby[working_data$First_Baby == "Other"] <- "NA"
+working_data$First_Baby[working_data$First_Baby == ""] <- "NA"
+working_data <- working_data[c(1:33,35:46)]
+
+# Convert Birth Type column
+working_data$Birth_Type <- as.character(working_data$Birth_Type)
+working_data$Birth_Type[working_data$Birth_Type == "I had a single birth."] <- "Single"
+working_data$Birth_Type[working_data$Birth_Type == "I had twins."] <- "Twins"
+working_data$Birth_Type[working_data$Birth_Type == "I had triplets."] <- "Triplets"
+working_data$Birth_Type[working_data$Birth_Type == ""] <- "NA"
+
+# Pare down columns
+working_data <- working_data[c(1:32,35:45)]
+working_data <- working_data[c(1:33)]
+
+# Calculate difference columns
+working_data$Difference <- working_data$Amount_Pumped - working_data$Amount_Baby_Eats
+working_data$Difference_Category <- "NA"
+working_data$Difference_Category[working_data$Difference == 0] <- "exact" 
+working_data$Difference_Category[working_data$Difference < 0] <- "under" 
+working_data$Difference_Category[working_data$Difference > 0] <- "over" 
+
+final_data <- subset(working_data, Blessed != "")
+final_data <- subset(final_data, Beer != "")
+
+# Write csv
+write.csv(final_data, file="cleaned_EP_data.csv")
