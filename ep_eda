@@ -1,0 +1,902 @@
+# libraries
+library(ggplot2) 
+library(vcd) 
+
+# Read data
+data <- read.csv("cleaned_EP_data.csv")
+
+# Continuous variables
+continuous <- data[c(3:7)]
+
+## Start Continuous- Continuous variable statisitics
+
+means <- sapply(continuous, mean, na.rm=TRUE)
+min <- sapply(continuous, min, na.rm=TRUE)
+max <- sapply(continuous, max, na.rm=TRUE)
+
+merged_stats <- cbind(means, min, max)
+View(merged_stats)
+
+# Inverse relationship between Times Pumped and Baby Age
+correlation <- cor(continuous, use="complete.obs")
+View(correlation)
+
+## End Continuous- Continuous variable statisitics
+
+
+## Start Continuous - Continuous
+
+# Relationship between Amount Baby Eats and Amount Pumped
+plot(continuous$Amount_Pumped, continuous$Amount_Baby_Eats , 
+     xlab="Amount_Pumped", ylab="Amount_Baby_Eats",pch=19)
+abline(reg = lm(continuous$Amount_Baby_Eats ~ continuous$Amount_Pumped),col="blue")
+
+# Slight Relationship between Amount Pumped and Amount of Times Pumped
+plot(continuous$Amount_Pumped, continuous$Times_Pumped , 
+     xlab="Amount_Pumped", ylab="Times_Pumped",pch=19)
+abline(reg = lm(continuous$Times_Pumped ~ continuous$Amount_Pumped),col="blue")
+
+# Relationship between Amount Pumped and Amount of Times Pumped
+plot(continuous$Amount_Pumped, continuous$Pumping_Session_Length , 
+     xlab="Amount_Pumped", ylab="Pumping_Session_Length",pch=19)
+abline(reg = lm(continuous$Pumping_Session_Length ~ continuous$Amount_Pumped),col="blue")
+
+
+# Not Significant
+#
+ggplot(continuous, aes(x=Baby_Age)) + geom_density() +
+  xlab("Baby Age") + ggtitle("Distribution of Baby Age")
+
+ggplot(continuous, aes(x=Amount_Pumped)) + geom_density() +
+  xlab("Amount Pumped") + ggtitle("Distribution of Amount Pumped")
+
+ggplot(continuous, aes(x=Amount_Baby_Eats)) + geom_density() +
+  xlab("Amount_Baby_Eats") + ggtitle("Distribution of Amount Baby Eats")
+
+ggplot(continuous, aes(x=Times_Pumped)) + geom_density() +
+  xlab("Times_Pumped") + ggtitle("Distribution of Times Pumped")
+
+ggplot(continuous, aes(x=Pumping_Session_Length)) + geom_density() +
+  xlab("Pumping_Session_Length") + ggtitle("Distribution of Pumping Session Length")
+
+plot(continuous$Baby_Age, continuous$Amount_Pumped , 
+     xlab="Baby_Age", ylab="Amount_Pumped",pch=19)
+abline(reg = lm(continuous$Amount_Pumped ~ continuous$Baby_Age),col="blue")
+
+plot(continuous$Baby_Age, continuous$Amount_Baby_Eats , 
+     xlab="Baby_Age", ylab="Amount_Baby_Eats",pch=19)
+abline(reg = lm(continuous$Amount_Baby_Eats ~ continuous$Baby_Age),col="blue")
+
+# Inverse Relationship between Times Pumped and Amount Baby Eats (*Probably because of age*)
+plot(continuous$Amount_Baby_Eats, continuous$Times_Pumped , 
+     xlab="Amount_Baby_Eats", ylab="Times_Pumped",pch=19)
+abline(reg = lm(continuous$Times_Pumped ~ continuous$Amount_Baby_Eats),col="blue")
+
+#  Relationship between Pumping Session Length and Amount Baby Eats (*Probably because of age*)
+plot(continuous$Amount_Baby_Eats, continuous$Pumping_Session_Length , 
+     xlab="Amount_Baby_Eats", ylab="Pumping_Session_Length",pch=19)
+abline(reg = lm(continuous$Pumping_Session_Length ~ continuous$Amount_Baby_Eats),col="blue")
+
+#  Relationship between Pumping Session Length and Times Pumped (*Probably because of age*)
+plot(continuous$Pumping_Session_Length, continuous$Times_Pumped , 
+     xlab="Pumping_Session_Length", ylab="Times_Pumped",pch=19)
+abline(reg = lm(continuous$Times_Pumped ~ continuous$Pumping_Session_Length),col="blue")
+
+# Times Pumped Declines as Baby Age
+plot(continuous$Baby_Age, continuous$Times_Pumped , 
+     xlab="Baby_Age", ylab="Times_Pumped",pch=19)
+abline(reg = lm(continuous$Times_Pumped ~ continuous$Baby_Age),col="blue")
+
+# Pumping Session Length Increases with Baby Age
+plot(continuous$Baby_Age, continuous$Pumping_Session_Length , 
+     xlab="Baby_Age", ylab="Pumping_Session_Length",pch=19)
+abline(reg = lm(continuous$Pumping_Session_Length ~ continuous$Baby_Age),col="blue")
+#
+# End Not Significant 
+## End Continuous - Continuous
+
+
+
+## Start Continuous - Categorical
+
+ggplot(data, aes(x=Baby_Age, colour=Fenugreek)) + geom_density()
+ggplot(data, aes(x=Baby_Age, colour=Oatmeal)) + geom_density()
+ggplot(data, aes(x=Baby_Age, colour=Water)) + geom_density()
+ggplot(data, aes(x=Baby_Age, colour=Power_Pumping)) + geom_density()
+ggplot(data, aes(x=Baby_Age, colour=Beer)) + geom_density()
+ggplot(data, aes(x=Baby_Age, colour=Blessed)) + geom_density() 
+ggplot(data, aes(x=Baby_Age, colour=Teas)) + geom_density() 
+ggplot(data, aes(x=Baby_Age, colour=Dom)) + geom_density() #possibly significant
+ggplot(data, aes(x=Baby_Age, colour=Reglan)) + geom_density() #possibly significant
+
+ggplot(data, aes(x=Amount_Pumped, colour=Fenugreek)) + geom_density()
+ggplot(data, aes(x=Amount_Pumped, colour=Oatmeal)) + geom_density()
+ggplot(data, aes(x=Amount_Pumped, colour=Water)) + geom_density() 
+ggplot(data, aes(x=Amount_Pumped, colour=Power_Pumping)) + geom_density()
+ggplot(data, aes(x=Amount_Pumped, colour=Beer)) + geom_density()
+ggplot(data, aes(x=Amount_Pumped, colour=Blessed)) + geom_density()
+ggplot(data, aes(x=Amount_Pumped, colour=Teas)) + geom_density()
+ggplot(data, aes(x=Amount_Pumped, colour=Dom)) + geom_density() #possibly significant
+ggplot(data, aes(x=Amount_Pumped, colour=Reglan)) + geom_density() #possibly significant
+
+ggplot(data, aes(x=Amount_Baby_Eats, colour=Fenugreek)) + geom_density() 
+ggplot(data, aes(x=Amount_Baby_Eats, colour=Oatmeal)) + geom_density()
+ggplot(data, aes(x=Amount_Baby_Eats, colour=Water)) + geom_density()
+ggplot(data, aes(x=Amount_Baby_Eats, colour=Power_Pumping)) + geom_density()
+ggplot(data, aes(x=Amount_Baby_Eats, colour=Beer)) + geom_density()
+ggplot(data, aes(x=Amount_Baby_Eats, colour=Blessed)) + geom_density()
+ggplot(data, aes(x=Amount_Baby_Eats, colour=Teas)) + geom_density()
+ggplot(data, aes(x=Amount_Baby_Eats, colour=Dom)) + geom_density() 
+ggplot(data, aes(x=Amount_Baby_Eats, colour=Reglan)) + geom_density() 
+
+ggplot(data, aes(x=Times_Pumped, colour=Fenugreek)) + geom_density()
+ggplot(data, aes(x=Times_Pumped, colour=Oatmeal)) + geom_density()
+ggplot(data, aes(x=Times_Pumped, colour=Water)) + geom_density()
+ggplot(data, aes(x=Times_Pumped, colour=Power_Pumping)) + geom_density()
+ggplot(data, aes(x=Times_Pumped, colour=Beer)) + geom_density()
+ggplot(data, aes(x=Times_Pumped, colour=Blessed)) + geom_density()
+ggplot(data, aes(x=Times_Pumped, colour=Teas)) + geom_density()
+ggplot(data, aes(x=Times_Pumped, colour=Dom)) + geom_density() #possibly significant
+ggplot(data, aes(x=Times_Pumped, colour=Reglan)) + geom_density() #possibly significant
+
+ggplot(data, aes(x=Pumping_Session_Length, colour=Fenugreek)) + geom_density()
+ggplot(data, aes(x=Pumping_Session_Length, colour=Oatmeal)) + geom_density()
+ggplot(data, aes(x=Pumping_Session_Length, colour=Water)) + geom_density()
+ggplot(data, aes(x=Pumping_Session_Length, colour=Power_Pumping)) + geom_density()
+ggplot(data, aes(x=Pumping_Session_Length, colour=Beer)) + geom_density()
+ggplot(data, aes(x=Pumping_Session_Length, colour=Blessed)) + geom_density()
+ggplot(data, aes(x=Pumping_Session_Length, colour=Teas)) + geom_density()
+ggplot(data, aes(x=Pumping_Session_Length, colour=Dom)) + geom_density() 
+ggplot(data, aes(x=Pumping_Session_Length, colour=Reglan)) + geom_density() 
+
+ggplot(data, aes(x=Amount_Pumped, colour=Why_EP_Physical)) + geom_density()
+ggplot(data, aes(x=Amount_Pumped, colour=Why_EP_Refused_Latch)) + geom_density()
+ggplot(data, aes(x=Amount_Pumped, colour=Why_EP_NICU)) + geom_density()
+ggplot(data, aes(x=Amount_Pumped, colour=Why_EP_No_Weight_Gain)) + geom_density()
+ggplot(data, aes(x=Amount_Pumped, colour=Why_EP_Painful)) + geom_density()
+ggplot(data, aes(x=Amount_Pumped, colour=Why_EP_Biting)) + geom_density()
+
+ggplot(data, aes(x=Baby_Age, colour=Why_EP_Physical)) + geom_density()
+ggplot(data, aes(x=Baby_Age, colour=Why_EP_Refused_Latch)) + geom_density()
+ggplot(data, aes(x=Baby_Age, colour=Why_EP_NICU)) + geom_density()
+ggplot(data, aes(x=Baby_Age, colour=Why_EP_No_Weight_Gain)) + geom_density()
+ggplot(data, aes(x=Baby_Age, colour=Why_EP_Painful)) + geom_density()
+ggplot(data, aes(x=Baby_Age, colour=Why_EP_Biting)) + geom_density() 
+
+ggplot(data, aes(x=Amount_Baby_Eats, colour=Why_EP_Physical)) + geom_density()
+ggplot(data, aes(x=Amount_Baby_Eats, colour=Why_EP_Refused_Latch)) + geom_density()
+ggplot(data, aes(x=Amount_Baby_Eats, colour=Why_EP_NICU)) + geom_density()
+ggplot(data, aes(x=Amount_Baby_Eats, colour=Why_EP_No_Weight_Gain)) + geom_density()
+ggplot(data, aes(x=Amount_Baby_Eats, colour=Why_EP_Painful)) + geom_density()
+ggplot(data, aes(x=Amount_Baby_Eats, colour=Why_EP_Biting)) + geom_density()
+
+ggplot(data, aes(x=Times_Pumped, colour=Why_EP_Physical)) + geom_density()
+ggplot(data, aes(x=Times_Pumped, colour=Why_EP_Refused_Latch)) + geom_density()
+ggplot(data, aes(x=Times_Pumped, colour=Why_EP_NICU)) + geom_density()
+ggplot(data, aes(x=Times_Pumped, colour=Why_EP_No_Weight_Gain)) + geom_density()
+ggplot(data, aes(x=Times_Pumped, colour=Why_EP_Painful)) + geom_density()
+ggplot(data, aes(x=Times_Pumped, colour=Why_EP_Biting)) + geom_density() #possibly significant
+
+ggplot(data, aes(x=Pumping_Session_Length, colour=Why_EP_Physical)) + geom_density()
+ggplot(data, aes(x=Pumping_Session_Length, colour=Why_EP_Refused_Latch)) + geom_density()
+ggplot(data, aes(x=Pumping_Session_Length, colour=Why_EP_NICU)) + geom_density()
+ggplot(data, aes(x=Pumping_Session_Length, colour=Why_EP_No_Weight_Gain)) + geom_density()
+ggplot(data, aes(x=Pumping_Session_Length, colour=Why_EP_Painful)) + geom_density()
+ggplot(data, aes(x=Pumping_Session_Length, colour=Why_EP_Biting)) + geom_density() 
+
+ggplot(data, aes(x=Amount_Pumped, colour=Health_Clogged)) + geom_density()
+ggplot(data, aes(x=Amount_Pumped, colour=Health_Mastitis)) + geom_density()
+ggplot(data, aes(x=Amount_Pumped, colour=Health_Thrush)) + geom_density()
+ggplot(data, aes(x=Amount_Pumped, colour=Health_Galactoceles)) + geom_density()
+ggplot(data, aes(x=Amount_Pumped, colour=Health_Cracked_Bleeding)) + geom_density()
+ggplot(data, aes(x=Amount_Pumped, colour=Health_General_Pain)) + geom_density()
+ggplot(data, aes(x=Amount_Pumped, colour=Health_No_Issues)) + geom_density()
+
+ggplot(data, aes(x=Baby_Age, colour=Health_Clogged)) + geom_density()
+ggplot(data, aes(x=Baby_Age, colour=Health_Mastitis)) + geom_density()
+ggplot(data, aes(x=Baby_Age, colour=Health_Thrush)) + geom_density()
+ggplot(data, aes(x=Baby_Age, colour=Health_Galactoceles)) + geom_density()
+ggplot(data, aes(x=Baby_Age, colour=Health_Cracked_Bleeding)) + geom_density()
+ggplot(data, aes(x=Baby_Age, colour=Health_General_Pain)) + geom_density()
+ggplot(data, aes(x=Baby_Age, colour=Health_No_Issues)) + geom_density()
+
+ggplot(data, aes(x=Amount_Baby_Eats, colour=Health_Clogged)) + geom_density()
+ggplot(data, aes(x=Amount_Baby_Eats, colour=Health_Mastitis)) + geom_density()
+ggplot(data, aes(x=Amount_Baby_Eats, colour=Health_Thrush)) + geom_density() 
+ggplot(data, aes(x=Amount_Baby_Eats, colour=Health_Galactoceles)) + geom_density()
+ggplot(data, aes(x=Amount_Baby_Eats, colour=Health_Cracked_Bleeding)) + geom_density()
+ggplot(data, aes(x=Amount_Baby_Eats, colour=Health_General_Pain)) + geom_density()
+ggplot(data, aes(x=Amount_Baby_Eats, colour=Health_No_Issues)) + geom_density()
+
+ggplot(data, aes(x=Times_Pumped, colour=Health_Clogged)) + geom_density()
+ggplot(data, aes(x=Times_Pumped, colour=Health_Mastitis)) + geom_density()
+ggplot(data, aes(x=Times_Pumped, colour=Health_Thrush)) + geom_density()
+ggplot(data, aes(x=Times_Pumped, colour=Health_Galactoceles)) + geom_density()
+ggplot(data, aes(x=Times_Pumped, colour=Health_Cracked_Bleeding)) + geom_density()
+ggplot(data, aes(x=Times_Pumped, colour=Health_General_Pain)) + geom_density()
+ggplot(data, aes(x=Times_Pumped, colour=Health_No_Issues)) + geom_density()
+
+ggplot(data, aes(x=Pumping_Session_Length, colour=Health_Clogged)) + geom_density()
+ggplot(data, aes(x=Pumping_Session_Length, colour=Health_Mastitis)) + geom_density()
+ggplot(data, aes(x=Pumping_Session_Length, colour=Health_Thrush)) + geom_density()
+ggplot(data, aes(x=Pumping_Session_Length, colour=Health_Galactoceles)) + geom_density()
+ggplot(data, aes(x=Pumping_Session_Length, colour=Health_Cracked_Bleeding)) + geom_density()
+ggplot(data, aes(x=Pumping_Session_Length, colour=Health_General_Pain)) + geom_density()
+ggplot(data, aes(x=Pumping_Session_Length, colour=Health_No_Issues)) + geom_density()
+
+ggplot(data, aes(x=Amount_Pumped, colour=Partner_Very_Supportive)) + geom_density()
+ggplot(data, aes(x=Amount_Pumped, colour=Pump_Baby_Again)) + geom_density() #possibly significant
+ggplot(data, aes(x=Amount_Pumped, colour=Age)) + geom_density() 
+ggplot(data, aes(x=Amount_Pumped, colour=Birth_Experience)) + geom_density()
+ggplot(data, aes(x=Amount_Pumped, colour=Birth_Type)) + geom_density()
+ggplot(data, aes(x=Amount_Pumped, colour=Difference_Category)) + geom_density() #possibly significant (for obvious reasons)
+
+ggplot(data, aes(x=Baby_Age, colour=Partner_Very_Supportive)) + geom_density()
+ggplot(data, aes(x=Baby_Age, colour=Pump_Baby_Again)) + geom_density() 
+ggplot(data, aes(x=Baby_Age, colour=Age)) + geom_density()
+ggplot(data, aes(x=Baby_Age, colour=Birth_Experience)) + geom_density()
+ggplot(data, aes(x=Baby_Age, colour=Birth_Type)) + geom_density()
+ggplot(data, aes(x=Baby_Age, colour=Difference_Category)) + geom_density()
+
+ggplot(data, aes(x=Amount_Baby_Eats, colour=Partner_Very_Supportive)) + geom_density()
+ggplot(data, aes(x=Amount_Baby_Eats, colour=Pump_Baby_Again)) + geom_density() 
+ggplot(data, aes(x=Amount_Baby_Eats, colour=Age)) + geom_density() #possibly significant
+ggplot(data, aes(x=Amount_Baby_Eats, colour=Birth_Experience)) + geom_density()
+ggplot(data, aes(x=Amount_Baby_Eats, colour=Birth_Type)) + geom_density()
+ggplot(data, aes(x=Amount_Baby_Eats, colour=Difference_Category)) + geom_density()
+
+ggplot(data, aes(x=Times_Pumped, colour=Partner_Very_Supportive)) + geom_density()
+ggplot(data, aes(x=Times_Pumped, colour=Pump_Baby_Again)) + geom_density() 
+ggplot(data, aes(x=Times_Pumped, colour=Age)) + geom_density() #possibly significant
+ggplot(data, aes(x=Times_Pumped, colour=Birth_Experience)) + geom_density()
+ggplot(data, aes(x=Times_Pumped, colour=Birth_Type)) + geom_density()
+ggplot(data, aes(x=Times_Pumped, colour=Difference_Category)) + geom_density()
+
+ggplot(data, aes(x=Pumping_Session_Length, colour=Partner_Very_Supportive)) + geom_density()
+ggplot(data, aes(x=Pumping_Session_Length, colour=Pump_Baby_Again)) + geom_density()
+ggplot(data, aes(x=Pumping_Session_Length, colour=Age)) + geom_density()
+ggplot(data, aes(x=Pumping_Session_Length, colour=Birth_Experience)) + geom_density()
+ggplot(data, aes(x=Pumping_Session_Length, colour=Birth_Type)) + geom_density()
+ggplot(data, aes(x=Pumping_Session_Length, colour=Difference_Category)) + geom_density()
+
+## End Continuous - Categorical
+
+
+## Start Categorical Data
+
+chisq.test(table(data$Difference_Category,data$Fenugreek))
+chisq.test(table(data$Difference_Category,data$Oatmeal))
+chisq.test(table(data$Difference_Category,data$Water))
+chisq.test(table(data$Difference_Category,data$Power_Pumping))
+chisq.test(table(data$Difference_Category,data$Beer))
+chisq.test(table(data$Difference_Category,data$Blessed))
+chisq.test(table(data$Difference_Category,data$Teas))
+chisq.test(table(data$Difference_Category,data$Dom))
+chisq.test(table(data$Difference_Category,data$Reglan))
+chisq.test(table(data$Difference_Category,data$Why_EP_Physical))
+chisq.test(table(data$Difference_Category,data$Why_EP_Refused_Latch))
+chisq.test(table(data$Difference_Category,data$Why_EP_NICU))
+chisq.test(table(data$Difference_Category,data$Why_EP_No_Weight_Gain))
+chisq.test(table(data$Difference_Category,data$Why_EP_Painful))
+chisq.test(table(data$Difference_Category,data$Why_EP_Biting))
+chisq.test(table(data$Difference_Category,data$Health_Clogged))
+chisq.test(table(data$Difference_Category,data$Health_Mastitis))
+chisq.test(table(data$Difference_Category,data$Health_Thrush))
+chisq.test(table(data$Difference_Category,data$Health_Galactoceles))
+chisq.test(table(data$Difference_Category,data$Health_Cracked_Bleeding))
+chisq.test(table(data$Difference_Category,data$Health_General_Pain))
+chisq.test(table(data$Difference_Category,data$Health_No_Issues))
+chisq.test(table(data$Difference_Category,data$Partner_Very_Supportive))
+chisq.test(table(data$Difference_Category,data$Pump_Baby_Again)) #significant
+chisq.test(table(data$Difference_Category,data$Age))
+chisq.test(table(data$Difference_Category,data$Birth_Experience))
+chisq.test(table(data$Difference_Category,data$Birth_Type))
+
+chisq.test(table(data$Birth_Type,data$Fenugreek))
+chisq.test(table(data$Birth_Type,data$Oatmeal))
+chisq.test(table(data$Birth_Type,data$Water))
+chisq.test(table(data$Birth_Type,data$Power_Pumping))
+chisq.test(table(data$Birth_Type,data$Beer))
+chisq.test(table(data$Birth_Type,data$Blessed))
+chisq.test(table(data$Birth_Type,data$Teas))
+chisq.test(table(data$Birth_Type,data$Dom))
+chisq.test(table(data$Birth_Type,data$Reglan))
+chisq.test(table(data$Birth_Type,data$Why_EP_Physical))
+chisq.test(table(data$Birth_Type,data$Why_EP_Refused_Latch))
+chisq.test(table(data$Birth_Type,data$Why_EP_NICU)) #significant
+chisq.test(table(data$Birth_Type,data$Why_EP_No_Weight_Gain))
+chisq.test(table(data$Birth_Type,data$Why_EP_Painful))
+chisq.test(table(data$Birth_Type,data$Why_EP_Biting))
+chisq.test(table(data$Birth_Type,data$Health_Clogged))
+chisq.test(table(data$Birth_Type,data$Health_Mastitis))
+chisq.test(table(data$Birth_Type,data$Health_Thrush))
+chisq.test(table(data$Birth_Type,data$Health_Galactoceles))
+chisq.test(table(data$Birth_Type,data$Health_Cracked_Bleeding))
+chisq.test(table(data$Birth_Type,data$Health_General_Pain))
+chisq.test(table(data$Birth_Type,data$Health_No_Issues))
+chisq.test(table(data$Birth_Type,data$Partner_Very_Supportive))
+chisq.test(table(data$Birth_Type,data$Pump_Baby_Again))
+chisq.test(table(data$Birth_Type,data$Age))
+chisq.test(table(data$Birth_Type,data$Birth_Experience))
+
+chisq.test(table(data$Birth_Experience,data$Fenugreek))
+chisq.test(table(data$Birth_Experience,data$Oatmeal))
+chisq.test(table(data$Birth_Experience,data$Water))
+chisq.test(table(data$Birth_Experience,data$Power_Pumping))
+chisq.test(table(data$Birth_Experience,data$Beer))
+chisq.test(table(data$Birth_Experience,data$Blessed))
+chisq.test(table(data$Birth_Experience,data$Teas))
+chisq.test(table(data$Birth_Experience,data$Dom))
+chisq.test(table(data$Birth_Experience,data$Reglan))
+chisq.test(table(data$Birth_Experience,data$Why_EP_Physical))
+chisq.test(table(data$Birth_Experience,data$Why_EP_Refused_Latch))
+chisq.test(table(data$Birth_Experience,data$Why_EP_NICU)) #significant
+chisq.test(table(data$Birth_Experience,data$Why_EP_No_Weight_Gain))
+chisq.test(table(data$Birth_Experience,data$Why_EP_Painful))
+chisq.test(table(data$Birth_Experience,data$Why_EP_Biting))
+chisq.test(table(data$Birth_Experience,data$Health_Clogged)) #significant
+chisq.test(table(data$Birth_Experience,data$Health_Mastitis))
+chisq.test(table(data$Birth_Experience,data$Health_Thrush))
+chisq.test(table(data$Birth_Experience,data$Health_Galactoceles))
+chisq.test(table(data$Birth_Experience,data$Health_Cracked_Bleeding)) #significant
+chisq.test(table(data$Birth_Experience,data$Health_General_Pain))
+chisq.test(table(data$Birth_Experience,data$Health_No_Issues))
+chisq.test(table(data$Birth_Experience,data$Partner_Very_Supportive))
+chisq.test(table(data$Birth_Experience,data$Pump_Baby_Again))
+chisq.test(table(data$Birth_Experience,data$Age)) #significant
+
+chisq.test(table(data$Age,data$Fenugreek))
+chisq.test(table(data$Age,data$Oatmeal))
+chisq.test(table(data$Age,data$Water))
+chisq.test(table(data$Age,data$Power_Pumping))
+chisq.test(table(data$Age,data$Beer))
+chisq.test(table(data$Age,data$Blessed))
+chisq.test(table(data$Age,data$Teas)) #significant
+chisq.test(table(data$Age,data$Dom)) #significant
+chisq.test(table(data$Age,data$Reglan))
+chisq.test(table(data$Age,data$Why_EP_Physical))
+chisq.test(table(data$Age,data$Why_EP_Refused_Latch))
+chisq.test(table(data$Age,data$Why_EP_NICU))
+chisq.test(table(data$Age,data$Why_EP_No_Weight_Gain))
+chisq.test(table(data$Age,data$Why_EP_Painful))
+chisq.test(table(data$Age,data$Why_EP_Biting))
+chisq.test(table(data$Age,data$Health_Clogged))
+chisq.test(table(data$Age,data$Health_Mastitis))
+chisq.test(table(data$Age,data$Health_Thrush))
+chisq.test(table(data$Age,data$Health_Galactoceles))
+chisq.test(table(data$Age,data$Health_Cracked_Bleeding))
+chisq.test(table(data$Age,data$Health_General_Pain)) #significant
+chisq.test(table(data$Age,data$Health_No_Issues))
+chisq.test(table(data$Age,data$Partner_Very_Supportive))
+chisq.test(table(data$Age,data$Pump_Baby_Again)) #significant
+
+chisq.test(table(data$Pump_Baby_Again,data$Fenugreek))
+chisq.test(table(data$Pump_Baby_Again,data$Oatmeal))
+chisq.test(table(data$Pump_Baby_Again,data$Water))
+chisq.test(table(data$Pump_Baby_Again,data$Power_Pumping)) #significant
+chisq.test(table(data$Pump_Baby_Again,data$Beer))
+chisq.test(table(data$Pump_Baby_Again,data$Blessed))
+chisq.test(table(data$Pump_Baby_Again,data$Teas))
+chisq.test(table(data$Pump_Baby_Again,data$Dom)) #significant
+chisq.test(table(data$Pump_Baby_Again,data$Reglan))
+chisq.test(table(data$Pump_Baby_Again,data$Why_EP_Physical))
+chisq.test(table(data$Pump_Baby_Again,data$Why_EP_Refused_Latch))
+chisq.test(table(data$Pump_Baby_Again,data$Why_EP_NICU))
+chisq.test(table(data$Pump_Baby_Again,data$Why_EP_No_Weight_Gain))
+chisq.test(table(data$Pump_Baby_Again,data$Why_EP_Painful))
+chisq.test(table(data$Pump_Baby_Again,data$Why_EP_Biting))
+chisq.test(table(data$Pump_Baby_Again,data$Health_Clogged))
+chisq.test(table(data$Pump_Baby_Again,data$Health_Mastitis))
+chisq.test(table(data$Pump_Baby_Again,data$Health_Thrush))
+chisq.test(table(data$Pump_Baby_Again,data$Health_Galactoceles))
+chisq.test(table(data$Pump_Baby_Again,data$Health_Cracked_Bleeding))
+chisq.test(table(data$Pump_Baby_Again,data$Health_General_Pain))
+chisq.test(table(data$Pump_Baby_Again,data$Health_No_Issues)) #significant
+chisq.test(table(data$Pump_Baby_Again,data$Partner_Very_Supportive))
+
+chisq.test(table(data$Partner_Very_Supportive,data$Fenugreek)) #significant
+chisq.test(table(data$Partner_Very_Supportive,data$Oatmeal))
+chisq.test(table(data$Partner_Very_Supportive,data$Water))
+chisq.test(table(data$Partner_Very_Supportive,data$Power_Pumping))
+chisq.test(table(data$Partner_Very_Supportive,data$Beer))
+chisq.test(table(data$Partner_Very_Supportive,data$Blessed))
+chisq.test(table(data$Partner_Very_Supportive,data$Teas))
+chisq.test(table(data$Partner_Very_Supportive,data$Dom))
+chisq.test(table(data$Partner_Very_Supportive,data$Reglan)) #significant
+chisq.test(table(data$Partner_Very_Supportive,data$Why_EP_Physical))
+chisq.test(table(data$Partner_Very_Supportive,data$Why_EP_Refused_Latch))
+chisq.test(table(data$Partner_Very_Supportive,data$Why_EP_NICU))
+chisq.test(table(data$Partner_Very_Supportive,data$Why_EP_No_Weight_Gain))
+chisq.test(table(data$Partner_Very_Supportive,data$Why_EP_Painful))
+chisq.test(table(data$Partner_Very_Supportive,data$Why_EP_Biting))
+chisq.test(table(data$Partner_Very_Supportive,data$Health_Clogged))
+chisq.test(table(data$Partner_Very_Supportive,data$Health_Mastitis)) #significant
+chisq.test(table(data$Partner_Very_Supportive,data$Health_Thrush))
+chisq.test(table(data$Partner_Very_Supportive,data$Health_Galactoceles))
+chisq.test(table(data$Partner_Very_Supportive,data$Health_Cracked_Bleeding))
+chisq.test(table(data$Partner_Very_Supportive,data$Health_General_Pain))
+chisq.test(table(data$Partner_Very_Supportive,data$Health_No_Issues)) #significant
+
+chisq.test(table(data$Health_No_Issues,data$Fenugreek))
+chisq.test(table(data$Health_No_Issues,data$Oatmeal)) #significant
+chisq.test(table(data$Health_No_Issues,data$Water))
+chisq.test(table(data$Health_No_Issues,data$Power_Pumping))
+chisq.test(table(data$Health_No_Issues,data$Beer))
+chisq.test(table(data$Health_No_Issues,data$Blessed))
+chisq.test(table(data$Health_No_Issues,data$Teas))
+chisq.test(table(data$Health_No_Issues,data$Dom))
+chisq.test(table(data$Health_No_Issues,data$Reglan))
+chisq.test(table(data$Health_No_Issues,data$Why_EP_Physical))
+chisq.test(table(data$Health_No_Issues,data$Why_EP_Refused_Latch))
+chisq.test(table(data$Health_No_Issues,data$Why_EP_NICU))
+chisq.test(table(data$Health_No_Issues,data$Why_EP_No_Weight_Gain))
+chisq.test(table(data$Health_No_Issues,data$Why_EP_Painful))
+chisq.test(table(data$Health_No_Issues,data$Why_EP_Biting))
+chisq.test(table(data$Health_No_Issues,data$Health_Clogged)) #significant
+chisq.test(table(data$Health_No_Issues,data$Health_Mastitis)) #significant
+chisq.test(table(data$Health_No_Issues,data$Health_Thrush)) #significant
+chisq.test(table(data$Health_No_Issues,data$Health_Galactoceles))
+chisq.test(table(data$Health_No_Issues,data$Health_Cracked_Bleeding)) #significant
+chisq.test(table(data$Health_No_Issues,data$Health_General_Pain)) #significant
+
+chisq.test(table(data$Health_General_Pain,data$Fenugreek))
+chisq.test(table(data$Health_General_Pain,data$Oatmeal)) #significant
+chisq.test(table(data$Health_General_Pain,data$Water)) #significant
+chisq.test(table(data$Health_General_Pain,data$Power_Pumping))
+chisq.test(table(data$Health_General_Pain,data$Beer))
+chisq.test(table(data$Health_General_Pain,data$Blessed))
+chisq.test(table(data$Health_General_Pain,data$Teas)) #significant
+chisq.test(table(data$Health_General_Pain,data$Dom))
+chisq.test(table(data$Health_General_Pain,data$Reglan))
+chisq.test(table(data$Health_General_Pain,data$Why_EP_Physical))
+chisq.test(table(data$Health_General_Pain,data$Why_EP_Refused_Latch))
+chisq.test(table(data$Health_General_Pain,data$Why_EP_NICU)) #significant
+chisq.test(table(data$Health_General_Pain,data$Why_EP_No_Weight_Gain)) #significant
+chisq.test(table(data$Health_General_Pain,data$Why_EP_Painful)) #significant
+chisq.test(table(data$Health_General_Pain,data$Why_EP_Biting))
+chisq.test(table(data$Health_General_Pain,data$Health_Clogged)) #significant
+chisq.test(table(data$Health_General_Pain,data$Health_Mastitis)) #significant
+chisq.test(table(data$Health_General_Pain,data$Health_Thrush))
+chisq.test(table(data$Health_General_Pain,data$Health_Galactoceles))
+chisq.test(table(data$Health_General_Pain,data$Health_Cracked_Bleeding)) #significant
+
+chisq.test(table(data$Health_Cracked_Bleeding,data$Fenugreek))
+chisq.test(table(data$Health_Cracked_Bleeding,data$Oatmeal))
+chisq.test(table(data$Health_Cracked_Bleeding,data$Water))
+chisq.test(table(data$Health_Cracked_Bleeding,data$Power_Pumping))
+chisq.test(table(data$Health_Cracked_Bleeding,data$Beer))
+chisq.test(table(data$Health_Cracked_Bleeding,data$Blessed))
+chisq.test(table(data$Health_Cracked_Bleeding,data$Teas))
+chisq.test(table(data$Health_Cracked_Bleeding,data$Dom))
+chisq.test(table(data$Health_Cracked_Bleeding,data$Reglan)) #significant
+chisq.test(table(data$Health_Cracked_Bleeding,data$Why_EP_Physical))
+chisq.test(table(data$Health_Cracked_Bleeding,data$Why_EP_Refused_Latch))
+chisq.test(table(data$Health_Cracked_Bleeding,data$Why_EP_NICU))
+chisq.test(table(data$Health_Cracked_Bleeding,data$Why_EP_No_Weight_Gain))
+chisq.test(table(data$Health_Cracked_Bleeding,data$Why_EP_Painful)) #significant
+chisq.test(table(data$Health_Cracked_Bleeding,data$Why_EP_Biting)) #significant
+chisq.test(table(data$Health_Cracked_Bleeding,data$Health_Clogged)) #significant
+chisq.test(table(data$Health_Cracked_Bleeding,data$Health_Mastitis)) #significant
+chisq.test(table(data$Health_Cracked_Bleeding,data$Health_Thrush))
+
+chisq.test(table(data$Health_Mastitis,data$Fenugreek)) #significant
+chisq.test(table(data$Health_Mastitis,data$Oatmeal)) #significant
+chisq.test(table(data$Health_Mastitis,data$Water))
+chisq.test(table(data$Health_Mastitis,data$Power_Pumping))
+chisq.test(table(data$Health_Mastitis,data$Beer))
+chisq.test(table(data$Health_Mastitis,data$Blessed))
+chisq.test(table(data$Health_Mastitis,data$Teas))
+chisq.test(table(data$Health_Mastitis,data$Dom))
+chisq.test(table(data$Health_Mastitis,data$Reglan))
+chisq.test(table(data$Health_Mastitis,data$Why_EP_Physical))
+chisq.test(table(data$Health_Mastitis,data$Why_EP_Refused_Latch))
+chisq.test(table(data$Health_Mastitis,data$Why_EP_NICU))
+chisq.test(table(data$Health_Mastitis,data$Why_EP_No_Weight_Gain))
+chisq.test(table(data$Health_Mastitis,data$Why_EP_Painful))
+chisq.test(table(data$Health_Mastitis,data$Why_EP_Biting)) #significant
+chisq.test(table(data$Health_Mastitis,data$Health_Clogged)) #significant
+
+chisq.test(table(data$Reglan,data$Fenugreek)) #significant
+chisq.test(table(data$Reglan,data$Oatmeal)) #significant
+chisq.test(table(data$Reglan,data$Water))
+chisq.test(table(data$Reglan,data$Power_Pumping)) #significant
+chisq.test(table(data$Reglan,data$Beer)) #significant
+chisq.test(table(data$Reglan,data$Blessed)) #significant
+chisq.test(table(data$Reglan,data$Teas)) #significant
+chisq.test(table(data$Reglan,data$Dom)) #significant
+
+chisq.test(table(data$Dom,data$Fenugreek)) #significant
+chisq.test(table(data$Dom,data$Oatmeal)) #significant
+chisq.test(table(data$Dom,data$Water)) #significant
+chisq.test(table(data$Dom,data$Power_Pumping)) #significant
+chisq.test(table(data$Dom,data$Beer)) #significant
+chisq.test(table(data$Dom,data$Blessed)) #significant
+chisq.test(table(data$Dom,data$Teas)) #significant
+
+chisq.test(table(data$Teas,data$Fenugreek)) #significant
+chisq.test(table(data$Teas,data$Oatmeal)) #significant
+chisq.test(table(data$Teas,data$Water)) #significant
+chisq.test(table(data$Teas,data$Power_Pumping)) #significant
+chisq.test(table(data$Teas,data$Beer)) #significant
+chisq.test(table(data$Teas,data$Blessed)) #significant
+
+chisq.test(table(data$Blessed,data$Fenugreek)) #significant
+chisq.test(table(data$Blessed,data$Oatmeal)) #significant
+chisq.test(table(data$Blessed,data$Water))
+chisq.test(table(data$Blessed,data$Power_Pumping)) #significant
+chisq.test(table(data$Blessed,data$Beer)) #significant
+
+chisq.test(table(data$Power_Pumping,data$Fenugreek)) #significant
+chisq.test(table(data$Power_Pumping,data$Oatmeal)) #significant
+chisq.test(table(data$Power_Pumping,data$Water)) #significant
+chisq.test(table(data$Power_Pumping,data$Beer)) #significant
+
+# graphics for significant variables
+mosaic( ~ Birth_Type + Why_EP_NICU, data = data,
+        labeling_args = list(set_varnames = c(Why_EP_NICU = "Why_EP_NICU")),
+        highlighting = "Birth_Type",
+        highlighting_fill = c("cornsilk","violet","blue"),
+        rot_labels = c(left = 0, top = 0),
+        pos_labels = c("center","center"),
+        offset_labels = c(0.0,0.6))
+
+mosaic( ~ Birth_Experience + Why_EP_NICU, data = data,
+        labeling_args = list(set_varnames = c(Why_EP_NICU = "Why_EP_NICU")),
+        highlighting = "Birth_Experience",
+        highlighting_fill = c("cornsilk","violet","blue","green"),
+        rot_labels = c(left = 0, top = 0),
+        pos_labels = c("center","center"),
+        offset_labels = c(0.0,0.6))
+
+# interesting
+mosaic( ~ Birth_Experience + Health_Clogged, data = data,
+        labeling_args = list(set_varnames = c(Health_Clogged = "Health_Clogged")),
+        highlighting = "Birth_Experience",
+        highlighting_fill = c("cornsilk","violet","blue","green"),
+        rot_labels = c(left = 0, top = 0),
+        pos_labels = c("center","center"),
+        offset_labels = c(0.0,0.6))
+
+# interesting
+mosaic( ~ Birth_Experience + Health_Cracked_Bleeding, data = data,
+        labeling_args = list(set_varnames = c(Health_Cracked_Bleeding = "Health_Cracked_Bleeding")),
+        highlighting = "Birth_Experience",
+        highlighting_fill = c("cornsilk","violet","blue","green"),
+        rot_labels = c(left = 0, top = 0),
+        pos_labels = c("center","center"),
+        offset_labels = c(0.0,0.6))
+
+mosaic( ~ Birth_Experience + Age, data = data,
+        labeling_args = list(set_varnames = c(Age = "Age")),
+        highlighting = "Birth_Experience",
+        highlighting_fill = c("cornsilk","violet","blue","green"),
+        rot_labels = c(left = 0, top = 0),
+        pos_labels = c("center","center"),
+        offset_labels = c(0.0,0.6))
+
+mosaic( ~ Age + Teas, data = data,
+        labeling_args = list(set_varnames = c(Teas = "Teas")),
+        highlighting = "Age",
+        highlighting_fill = c("cornsilk","violet","blue","green"),
+        rot_labels = c(left = 0, top = 0),
+        pos_labels = c("center","center"),
+        offset_labels = c(0.0,0.6))
+
+mosaic( ~ Age + Dom, data = data,
+        labeling_args = list(set_varnames = c(Dom = "Dom")),
+        highlighting = "Age",
+        highlighting_fill = c("cornsilk","violet","blue","green"),
+        rot_labels = c(left = 0, top = 0),
+        pos_labels = c("center","center"),
+        offset_labels = c(0.0,0.6))
+
+mosaic( ~ Age + Health_General_Pain, data = data,
+        labeling_args = list(set_varnames = c(Health_General_Pain = "Health_General_Pain")),
+        highlighting = "Age",
+        highlighting_fill = c("cornsilk","violet","blue","green", "red"),
+        rot_labels = c(left = 0, top = 0),
+        pos_labels = c("center","center"),
+        offset_labels = c(0.0,0.6))
+
+mosaic( ~ Age + Pump_Baby_Again, data = data,
+        labeling_args = list(set_varnames = c(Pump_Baby_Again = "Pump_Baby_Again")),
+        highlighting = "Age",
+        highlighting_fill = c("cornsilk","violet","blue","green"),
+        rot_labels = c(left = 0, top = 0),
+        pos_labels = c("center","center"),
+        offset_labels = c(0.0,0.6))
+
+mosaic( ~ Age + Pump_Baby_Again, data = data,
+        labeling_args = list(set_varnames = c(Pump_Baby_Again = "Pump_Baby_Again")),
+        highlighting = "Age",
+        highlighting_fill = c("cornsilk","violet","blue","green"),
+        rot_labels = c(left = 0, top = 0),
+        pos_labels = c("center","center"),
+        offset_labels = c(0.0,0.6))
+
+# interesting
+mosaic( ~ Pump_Baby_Again + Power_Pumping, data = data,
+        labeling_args = list(set_varnames = c(Power_Pumping = "Power_Pumping")),
+        highlighting = "Pump_Baby_Again",
+        highlighting_fill = c("cornsilk","violet","blue"),
+        rot_labels = c(left = 0, top = 0),
+        pos_labels = c("center","center"),
+        offset_labels = c(0.0,0.6))
+
+mosaic( ~ Pump_Baby_Again + Dom, data = data,
+        labeling_args = list(set_varnames = c(Dom = "Dom")),
+        highlighting = "Pump_Baby_Again",
+        highlighting_fill = c("cornsilk","violet","blue"),
+        rot_labels = c(left = 0, top = 0),
+        pos_labels = c("center","center"),
+        offset_labels = c(0.0,0.6))
+
+# interesting
+mosaic( ~ Pump_Baby_Again + Health_No_Issues, data = data,
+        labeling_args = list(set_varnames = c(Health_No_Issues = "Health_No_Issues")),
+        highlighting = "Pump_Baby_Again",
+        highlighting_fill = c("cornsilk","violet","blue"),
+        rot_labels = c(left = 0, top = 0),
+        pos_labels = c("center","center"),
+        offset_labels = c(0.0,0.6))
+
+# interesting
+mosaic( ~ Pump_Baby_Again + Difference_Category, data = data,
+        labeling_args = list(set_varnames = c(Difference_Category = "Difference_Category")),
+        highlighting = "Pump_Baby_Again",
+        highlighting_fill = c("cornsilk","violet","blue"),
+        rot_labels = c(left = 0, top = 0),
+        pos_labels = c("center","center"),
+        offset_labels = c(0.0,0.6))
+
+# interesting
+mosaic( ~ Partner_Very_Supportive + Fenugreek, data = data,
+        labeling_args = list(set_varnames = c(Fenugreek = "Fenugreek")),
+        highlighting = "Partner_Very_Supportive",
+        highlighting_fill = c("cornsilk","violet","blue","green","yellow"),
+        rot_labels = c(left = 0, top = 0),
+        pos_labels = c("center","center"),
+        offset_labels = c(0.0,0.6))
+
+mosaic( ~ Partner_Very_Supportive + Reglan, data = data,
+        labeling_args = list(set_varnames = c(Reglan = "Reglan")),
+        highlighting = "Partner_Very_Supportive",
+        highlighting_fill = c("cornsilk","violet","blue","green","yellow"),
+        rot_labels = c(left = 0, top = 0),
+        pos_labels = c("center","center"),
+        offset_labels = c(0.0,0.6))
+
+# interesting
+mosaic( ~ Partner_Very_Supportive + Health_Mastitis, data = data,
+        labeling_args = list(set_varnames = c(Health_Mastitis = "Health_Mastitis")),
+        highlighting = "Partner_Very_Supportive",
+        highlighting_fill = c("cornsilk","violet","blue","green","yellow"),
+        rot_labels = c(left = 0, top = 0),
+        pos_labels = c("center","center"),
+        offset_labels = c(0.0,0.6))
+
+mosaic( ~ Partner_Very_Supportive + Health_No_Issues, data = data,
+        labeling_args = list(set_varnames = c(Health_No_Issues = "Health_No_Issues")),
+        highlighting = "Partner_Very_Supportive",
+        highlighting_fill = c("cornsilk","violet","blue","green","yellow"),
+        rot_labels = c(left = 0, top = 0),
+        pos_labels = c("center","center"),
+        offset_labels = c(0.0,0.6))
+
+mosaic( ~ Health_No_Issues + Oatmeal, data = data,
+        labeling_args = list(set_varnames = c(Oatmeal = "Oatmeal")),
+        highlighting = "Health_No_Issues",
+        highlighting_fill = c("cornsilk","violet"),
+        rot_labels = c(left = 0, top = 0),
+        pos_labels = c("center","center"),
+        offset_labels = c(0.0,0.6))
+
+# interesting
+mosaic( ~ Health_General_Pain + Oatmeal, data = data,
+        labeling_args = list(set_varnames = c(Oatmeal = "Oatmeal")),
+        highlighting = "Health_General_Pain",
+        highlighting_fill = c("cornsilk","violet"),
+        rot_labels = c(left = 0, top = 0),
+        pos_labels = c("center","center"),
+        offset_labels = c(0.0,0.6))
+
+mosaic( ~ Health_General_Pain + Water, data = data,
+        labeling_args = list(set_varnames = c(Water = "Water")),
+        highlighting = "Health_General_Pain",
+        highlighting_fill = c("cornsilk","violet"),
+        rot_labels = c(left = 0, top = 0),
+        pos_labels = c("center","center"),
+        offset_labels = c(0.0,0.6))
+
+# interesting
+mosaic( ~ Health_General_Pain + Teas, data = data,
+        labeling_args = list(set_varnames = c(Teas = "Teas")),
+        highlighting = "Health_General_Pain",
+        highlighting_fill = c("cornsilk","violet"),
+        rot_labels = c(left = 0, top = 0),
+        pos_labels = c("center","center"),
+        offset_labels = c(0.0,0.6))
+
+# interesting
+mosaic( ~ Health_General_Pain + Why_EP_NICU, data = data,
+        labeling_args = list(set_varnames = c(Why_EP_NICU = "Why_EP_NICU")),
+        highlighting = "Health_General_Pain",
+        highlighting_fill = c("cornsilk","violet"),
+        rot_labels = c(left = 0, top = 0),
+        pos_labels = c("center","center"),
+        offset_labels = c(0.0,0.6))
+
+# interesting
+mosaic( ~ Health_General_Pain + Why_EP_No_Weight_Gain, data = data,
+        labeling_args = list(set_varnames = c(Why_EP_No_Weight_Gain = "Why_EP_No_Weight_Gain")),
+        highlighting = "Health_General_Pain",
+        highlighting_fill = c("cornsilk","violet"),
+        rot_labels = c(left = 0, top = 0),
+        pos_labels = c("center","center"),
+        offset_labels = c(0.0,0.6))
+
+# interesting
+mosaic( ~ Health_General_Pain + Why_EP_Painful, data = data,
+        labeling_args = list(set_varnames = c(Why_EP_Painful = "Why_EP_Painful")),
+        highlighting = "Health_General_Pain",
+        highlighting_fill = c("cornsilk","violet"),
+        rot_labels = c(left = 0, top = 0),
+        pos_labels = c("center","center"),
+        offset_labels = c(0.0,0.6))
+
+# interesting
+mosaic( ~ Health_Mastitis + Fenugreek, data = data,
+        labeling_args = list(set_varnames = c(Fenugreek = "Fenugreek")),
+        highlighting = "Health_Mastitis",
+        highlighting_fill = c("cornsilk","violet"),
+        rot_labels = c(left = 0, top = 0),
+        pos_labels = c("center","center"),
+        offset_labels = c(0.0,0.6))
+
+# interesting
+mosaic( ~ Health_Mastitis + Oatmeal, data = data,
+        labeling_args = list(set_varnames = c(Oatmeal = "Oatmeal")),
+        highlighting = "Health_Mastitis",
+        highlighting_fill = c("cornsilk","violet"),
+        rot_labels = c(left = 0, top = 0),
+        pos_labels = c("center","center"),
+        offset_labels = c(0.0,0.6))
+
+# interesting
+mosaic( ~ Health_Mastitis + Why_EP_Biting, data = data,
+        labeling_args = list(set_varnames = c(Why_EP_Biting = "Why_EP_Biting")),
+        highlighting = "Health_Mastitis",
+        highlighting_fill = c("cornsilk","violet"),
+        rot_labels = c(left = 0, top = 0),
+        pos_labels = c("center","center"),
+        offset_labels = c(0.0,0.6))
+
+# interesting
+mosaic( ~ Health_Mastitis + Health_Clogged, data = data,
+        labeling_args = list(set_varnames = c(Health_Clogged = "Health_Clogged")),
+        highlighting = "Health_Mastitis",
+        highlighting_fill = c("cornsilk","violet"),
+        rot_labels = c(left = 0, top = 0),
+        pos_labels = c("center","center"),
+        offset_labels = c(0.0,0.6))
+
+# interesting
+mosaic( ~ Fenugreek + Power_Pumping, data = data,
+        labeling_args = list(set_varnames = c(Power_Pumping = "Power_Pumping")),
+        highlighting = "Fenugreek",
+        highlighting_fill = c("cornsilk","violet","green","blue"),
+        rot_labels = c(left = 0, top = 0),
+        pos_labels = c("center","center"),
+        offset_labels = c(0.0,0.6))
+
+# interesting
+mosaic( ~ Fenugreek + Teas, data = data,
+        labeling_args = list(set_varnames = c(Teas = "Teas")),
+        highlighting = "Fenugreek",
+        highlighting_fill = c("cornsilk","violet","green","blue"),
+        rot_labels = c(left = 0, top = 0),
+        pos_labels = c("center","center"),
+        offset_labels = c(0.0,0.6))
+
+# interesting
+mosaic( ~ Fenugreek + Dom, data = data,
+        labeling_args = list(set_varnames = c(Dom = "Dom")),
+        highlighting = "Fenugreek",
+        highlighting_fill = c("cornsilk","violet","green","blue"),
+        rot_labels = c(left = 0, top = 0),
+        pos_labels = c("center","center"),
+        offset_labels = c(0.0,0.6))
+
+mosaic( ~ Fenugreek + Reglan, data = data,
+        labeling_args = list(set_varnames = c(Reglan = "Reglan")),
+        highlighting = "Fenugreek",
+        highlighting_fill = c("cornsilk","violet","green","blue"),
+        rot_labels = c(left = 0, top = 0),
+        pos_labels = c("center","center"),
+        offset_labels = c(0.0,0.6))
+
+# interesting
+mosaic( ~ Fenugreek + Oatmeal, data = data,
+        labeling_args = list(set_varnames = c(Oatmeal = "Oatmeal")),
+        highlighting = "Fenugreek",
+        highlighting_fill = c("cornsilk","violet","green","blue"),
+        rot_labels = c(left = 0, top = 0),
+        pos_labels = c("center","center"),
+        offset_labels = c(0.0,0.6))
+
+# interesting
+mosaic( ~ Fenugreek + Blessed, data = data,
+        labeling_args = list(set_varnames = c(Blessed = "Blessed")),
+        highlighting = "Fenugreek",
+        highlighting_fill = c("cornsilk","violet","green","blue"),
+        rot_labels = c(left = 0, top = 0),
+        pos_labels = c("center","center"),
+        offset_labels = c(0.0,0.6))
+
+mosaic( ~ Fenugreek + Water, data = data,
+        labeling_args = list(set_varnames = c(Water = "Water")),
+        highlighting = "Fenugreek",
+        highlighting_fill = c("cornsilk","violet","green","blue"),
+        rot_labels = c(left = 0, top = 0),
+        pos_labels = c("center","center"),
+        offset_labels = c(0.0,0.6))
+
+# interesting
+mosaic( ~ Oatmeal + Water, data = data,
+        labeling_args = list(set_varnames = c(Water = "Water")),
+        highlighting = "Oatmeal",
+        highlighting_fill = c("cornsilk","violet","green","blue"),
+        rot_labels = c(left = 0, top = 0),
+        pos_labels = c("center","center"),
+        offset_labels = c(0.0,0.6))
+
+# interesting
+mosaic( ~ Oatmeal + Teas, data = data,
+        labeling_args = list(set_varnames = c(Teas = "Teas")),
+        highlighting = "Oatmeal",
+        highlighting_fill = c("cornsilk","violet","green","blue"),
+        rot_labels = c(left = 0, top = 0),
+        pos_labels = c("center","center"),
+        offset_labels = c(0.0,0.6))
+
+mosaic( ~ Oatmeal + Power_Pumping, data = data,
+        labeling_args = list(set_varnames = c(Power_Pumping = "Power_Pumping")),
+        highlighting = "Oatmeal",
+        highlighting_fill = c("cornsilk","violet","green","blue"),
+        rot_labels = c(left = 0, top = 0),
+        pos_labels = c("center","center"),
+        offset_labels = c(0.0,0.6))
+
+# look into more
+mosaic( ~ Oatmeal + Dom, data = data,
+        labeling_args = list(set_varnames = c(Dom = "Dom")),
+        highlighting = "Oatmeal",
+        highlighting_fill = c("cornsilk","violet","green","blue"),
+        rot_labels = c(left = 0, top = 0),
+        pos_labels = c("center","center"),
+        offset_labels = c(0.0,0.6))
+
+# look into more
+mosaic( ~ Dom + Reglan, data = data,
+        labeling_args = list(set_varnames = c(Reglan = "Reglan")),
+        highlighting = "Dom",
+        highlighting_fill = c("cornsilk","violet","green","blue"),
+        rot_labels = c(left = 0, top = 0),
+        pos_labels = c("center","center"),
+        offset_labels = c(0.0,0.6))
+
+mosaic( ~ Water + Teas, data = data,
+        labeling_args = list(set_varnames = c(Teas = "Teas")),
+        highlighting = "Water",
+        highlighting_fill = c("cornsilk","violet","green","blue"),
+        rot_labels = c(left = 0, top = 0),
+        pos_labels = c("center","center"),
+        offset_labels = c(0.0,0.6))
+
+mosaic( ~ Water + Power_Pumping, data = data,
+        labeling_args = list(set_varnames = c(Power_Pumping = "Power_Pumping")),
+        highlighting = "Water",
+        highlighting_fill = c("cornsilk","violet","green","blue"),
+        rot_labels = c(left = 0, top = 0),
+        pos_labels = c("center","center"),
+        offset_labels = c(0.0,0.6))
